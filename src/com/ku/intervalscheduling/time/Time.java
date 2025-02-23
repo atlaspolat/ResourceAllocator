@@ -38,7 +38,7 @@ public class Time implements com.ku.intervalscheduling.model.Resource, com.ku.in
 			throw new IllegalArgumentException("Start time must not be equal to end time");
 		}
 		
-		if (Budget > startTime - endTime) {
+		if (Budget > endTime - startTime) {
 			throw new IllegalArgumentException("Budget cannot be greater than the difference between start time and end time");
 		}
 		

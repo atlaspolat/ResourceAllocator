@@ -16,6 +16,8 @@ public abstract class Scheduler<T extends Resource, P extends Request<T>> {
 	protected final Class<T> resourceType;
 	protected final Class<P> requestType;
 	
+	protected List<P> scheduledRequests;
+	
 	public Scheduler(Class<T> resource, Class<P> request) {
 		
 		requests = new ArrayList<P>();
@@ -34,12 +36,32 @@ public abstract class Scheduler<T extends Resource, P extends Request<T>> {
 	    requests.add(request);
 	}
 	
+	public void addRequests(List<P> requests) { // ✅ Accepts P directly
+	    if (requests == null) {
+	        requests = new ArrayList<>(requests);
+	        return;
+	    }
+	   
+	    requests.addAll(requests);
+	}
+	
 	public void addResource(T resource) { // ✅ Accepts P directly
 	    if (resources == null) {
 	    	resources = new ArrayList<>();
 	    }
 	    resources.add(resource);
 	}
+	
+	public void addResources(List<T> resources) { // ✅ Accepts P directly
+	    if (resources == null) {
+	    	resources = new ArrayList<>(resources);
+	    }
+	    resources.addAll(resources);
+	}
+	
+	protected abstract Boolean areClashing(P request1, P request2);
+	
+	protected abstract List<P> getNonClashingRequests(P request);
 	
 	public void removeRequest(P request) {
 		
